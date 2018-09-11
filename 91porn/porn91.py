@@ -26,7 +26,7 @@ if not os.path.exists(video_path):
     os.mkdir(video_path)
 
 #找国内可用网址到这里：https://www.ebay.com/usr/91dizhi_1
-porn91_url =  'http://91porn.com '#'http://93.91p09.space/'
+porn91_url =  'http://91porn.com'#'http://93.91p09.space/'
 info_list=[]
 
 def timenow():
