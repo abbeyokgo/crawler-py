@@ -10,7 +10,7 @@ import time
 import random
 import string
 import threading
-from downloader import downloader
+from downloader import Downloader
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36',
            'X-Forwarded-For': '', 'Accept-Language': 'zh-CN,zh;q=0.8'}
@@ -65,7 +65,7 @@ def get_list(url):
             url, picture, title = ul
             url = url.replace('_hd', '')
             id = re.findall('viewkey=(.*?)&', url)[0]
-            downpath=os.path.join(video_path,u'{}.mp4'.format(re.sub('[\\/:\*\?"><\|]','',title)))
+            downpath = os.path.join(video_path,u'{}.mp4'.format(re.sub('[\\/:\*\?"><\|]','',title)))
             if not exists(id):
                 videos.append({'id':id, 'url':url, 'picture':picture, 'downpath':downpath,'title':title})
                 print(id + ' do not exists!')
@@ -84,8 +84,12 @@ def download_video(**kwargs):
         resp = requests.get(url, headers=headers)
         resp.encoding='utf-8'
         cont = resp.text
-        video = mp4_reg.findall(cont)[0]
-        d=downloader(url=video,path=kwargs['downpath'],picture=kwargs['picture'],title=kwargs['title'],id=kwargs['id'])
+        videos = mp4_reg.findall(cont)
+        if len(videos) <= 0:
+            print('not found video!! next...')
+            return None
+        video = videos[0]
+        d = Downloader(url=video,path=kwargs['downpath'],picture=kwargs['picture'],title=kwargs['title'],id=kwargs['id'])
         return d
     except Exception as e:
         print(e)
@@ -114,7 +118,11 @@ def main():
             tasks=[]
             for video in videopages:
                 d=download_video(**video)
-                d.run()
+                if isinstance(d,Downloader):
+                    d.run()
+                else:
+                    print('*' * 10 + 'Download Errors!' + '*' * 10)
+
         else:
             print('get list fail!')
 

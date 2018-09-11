@@ -12,7 +12,7 @@ def randip():
             + str(random.randint(0, 255))
 
 
-class downloader:
+class Downloader:
     def __init__(self,url,path,picture,title,id,offset=327680*10):
         self.url=url
         self.offset=offset
