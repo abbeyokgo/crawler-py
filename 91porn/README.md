@@ -1,4 +1,7 @@
-~~# 91porn下载脚本
+# 91porn下载脚本
+
+2019.04.01更新
+
 安装依赖：
 ```
 pip install -r requirements.txt
@@ -15,7 +18,5 @@ python porn91.py [-a1 1] [-a2 2]
 1. 自动去重，已经下载的不会再下载
 2. 多线程下载
 3. 兼容Python2.7和Python3
-~~
 
 
-众多脚本终于把91porn大佬惹怒了，从此只有404
